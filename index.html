@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="My Wallet">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0F6B4F">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>My Wallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--br:#0F6B4F;--dk:#084C3A;--bg:#F8FAF8;--card:#fff;--gold:#C9A227;--tx:#17211D;--tx2:#718078;--neg:#C96A6A;--ln:#E6ECE8;--sh:0 2px 14px rgba(8,76,58,.07);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1512;--card:#16201B;--tx:#EAF1ED;--tx2:#8FA096;--ln:#25322B;--sh:none}}
+:root[data-theme="dark"]{--bg:#0E1512;--card:#16201B;--tx:#EAF1ED;--tx2:#8FA096;--ln:#25322B;--sh:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:Vazirmatn,system-ui,-apple-system,Tahoma,sans-serif}
+body{max-width:520px;margin:0 auto;padding:16px 16px 110px;overflow-x:hidden;font-size:15px}
+h1,h2,h3{margin:0}h2{font-size:16px;margin:22px 0 10px}
+.sub{color:var(--tx2);font-size:13px}
+.card{background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--sh);border:1px solid var(--ln);margin-bottom:12px}
+.hero{background:var(--br);color:#fff;border:0;position:relative;overflow:hidden}
+.hero .big{font-size:34px;font-weight:800;margin:4px 0 12px}
+.hero .row{display:flex;gap:10px}.hero .row div{flex:1;background:rgba(255,255,255,.1);border-radius:14px;padding:10px}
+.hero small{opacity:.8;display:block;font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .card{margin:0}
+.pct{color:var(--gold);font-weight:800}
+.bar{height:8px;border-radius:8px;background:var(--ln);overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--br);border-radius:8px;transition:width .5s}
+.bar.w i{background:var(--gold)}.bar.x i{background:var(--neg)}
+.kv{display:flex;justify-content:space-between;font-size:13px;color:var(--tx2);margin-top:3px}.kv b{color:var(--tx);font-weight:600}
+.tx{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--ln)}.tx:last-child{border:0}
+.dot{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(15,107,79,.1);color:var(--br);font-weight:800}
+.tx.e .dot{background:rgba(201,106,106,.12);color:var(--neg)}.tx .m{flex:1;min-width:0}.tx .m div:first-child{font-weight:600}
+.pos{color:var(--br);font-weight:600}.neg{color:var(--neg);font-weight:600}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:auto;background:var(--card);border-top:1px solid var(--ln);display:flex;padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;background:none;border:0;color:var(--tx2);font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px}
+nav button.on{color:var(--br)}nav svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fab{position:fixed;bottom:calc(78px + env(safe-area-inset-bottom,0px));left:50%;margin-left:-28px;width:56px;height:56px;border-radius:50%;background:var(--dk);color:var(--gold);border:0;font-size:30px;box-shadow:0 6px 18px rgba(8,76,58,.35);z-index:6}
+.fab:active{transform:scale(.94)}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:520px;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:90vh;overflow:auto;animation:up .25s}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+label{display:block;font-size:12px;color:var(--tx2);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--tx)}
+.btn{width:100%;padding:14px;border:0;border-radius:14px;background:var(--br);color:#fff;font:inherit;font-weight:600;margin-top:14px}
+.btn.alt{background:var(--bg);color:var(--tx);border:1px solid var(--ln)}.btn.red{background:none;color:var(--neg);border:1px solid var(--neg)}
+.seg{display:flex;gap:8px}.seg button{flex:1;padding:16px;border-radius:14px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);font:inherit;font-weight:600}
+.seg button.on{background:var(--br);color:#fff;border-color:var(--br)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}.chips button{white-space:nowrap;padding:7px 12px;border-radius:20px;border:1px solid var(--ln);background:var(--card);color:var(--tx2);font:inherit;font-size:12px}.chips button.on{background:var(--br);color:#fff;border-color:var(--br)}
+.warn{background:rgba(201,162,39,.12);border:1px solid var(--gold);border-radius:12px;padding:10px;font-size:13px;margin:8px 0}
+.empty{text-align:center;padding:40px 10px;color:var(--tx2)}
+.row2{display:flex;gap:8px;align-items:center}.row2>*{flex:1}.x{flex:0 0 auto!important;background:none;border:0;color:var(--neg);font-size:18px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px}.bars>div{flex:1;display:flex;gap:2px;align-items:flex-end;height:100%}.bars i{flex:1;border-radius:4px 4px 0 0;min-height:2px}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--dk);color:#fff;padding:10px 16px;border-radius:12px;z-index:30;font-size:13px;display:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="toast"></div>
+<script>
+// ---------- i18n (add another language object + switch lang to extend) ----------
+const T={fa:{app:'My Wallet',home:'خانه',tx:'تراکنش‌ها',an:'تحلیل',goals:'اهداف',set:'تنظیمات',inc:'درآمد',exp:'هزینه',bal:'موجودی کل',monthInc:'درآمد این ماه',monthExp:'خرج این ماه',money:'پول شما',ess:'ضروریات',cap:'حفظ ارزش / سرمایه',biz:'رشد کار',free:'خرج آزاد',alloc:'سهم از درآمد',spent:'مصرف‌شده',left:'باقی‌مانده',life:'سبک زندگی',amount:'مبلغ',cat:'دسته',date:'تاریخ',desc:'توضیح',acc:'حساب',src:'منبع',save:'ثبت',add:'افزودن تراکنش',empty:'کیف پولت منتظر اولین تراکنش است.',over:'از سقف خرج آزادت گذشتی. مشکلی نیست، فقط برای ماه بعد در نظر بگیر.',sum100:'جمع درصدها باید ۱۰۰٪ باشد.',sugg:'تقسیم پیشنهادی',suggNote:'فقط پیشنهاد است؛ اپ هیچ انتقال بانکی انجام نمی‌دهد.'},}
+const L='fa',t=k=>T[L][k]||k;
+// ---------- state ----------
+const KEY='mywallet.v1';
+const DEF=()=>({v:1,set:{ess:40,cap:10,biz:10,free:40,cur:'تومان',theme:''},
+accounts:['کارت اصلی','کارت خرج آزاد','حساب سرمایه','نقدی'],
+sources:['فریلنس','یوتیوب','پشتیبانی وب‌سایت','پروژه‌های AI','VPN / سرور','سایر'],
+cats:{ess:['اجاره','قبض','اینترنت','موبایل','غذا','حمل‌ونقل','سلامت','دانشگاه','سایر'],life:['تفریح','رستوران','کافه','خرید','بازی','سرگرمی','سیگار','سایر'],biz:['سرور','تبلیغات','نرم‌افزار','ابزار AI','دامنه','هاست','تجهیزات','سایر'],cap:['طلا','ارز','سرمایه‌گذاری','ذخیره اضطراری','سایر']},
+tx:[],goals:[]});
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||DEF()}catch(e){S=DEF()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('ذخیره‌سازی در این مرورگر ممکن نیست')}};
+const GN={ess:'ضروریات',life:'سبک زندگی',biz:'کسب‌وکار',cap:'سرمایه'};
+const BUCKET={ess:'ess',life:'free',biz:'biz',cap:'cap'};
+// ---------- helpers ----------
+const $=s=>document.querySelector(s),fmt=n=>Math.round(n||0).toLocaleString('en-US'),money=n=>fmt(n)+' '+S.set.cur;
+const today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const mk=d=>d.slice(0,7),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const prevMk=m=>{let[y,mo]=m.split('-').map(Number);mo--;if(!mo){mo=12;y--}return y+'-'+String(mo).padStart(2,'0')};
+const sum=a=>a.reduce((s,x)=>s+x.amount,0);
+const inM=(m,type)=>S.tx.filter(x=>mk(x.date)==m&&(!type||x.type==type));
+const exM=(m,g)=>sum(inM(m,'expense').filter(x=>x.group==g));
+const alloc=m=>{const i=sum(inM(m,'income'));return{ess:i*S.set.ess/100,cap:i*S.set.cap/100,biz:i*S.set.biz/100,free:i*S.set.free/100}};
+const spentB=(m,b)=>sum(inM(m,'expense').filter(x=>BUCKET[x.group]==b));
+const balance=()=>sum(S.tx.filter(x=>x.type=='income'))-sum(S.tx.filter(x=>x.type=='expense'));
+const dateAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200)}
+function theme(){const r=document.documentElement;S.set.theme?r.setAttribute('data-theme',S.set.theme):r.removeAttribute('data-theme')}
+const bar=(p,cls='')=>`<div class="bar ${p>100?'x':p>80?'w':''} ${cls}"><i style="width:${Math.min(100,p)}%"></i></div>`;
+function spark(){const pts=[];let b=balance();const days=30;for(let i=0;i<=days;i++){const d=dateAgo(days-i);pts.push(S.tx.filter(x=>x.date<=d).reduce((s,x)=>s+(x.type=='income'?x.amount:-x.amount),0))}
+const mx=Math.max(...pts),mn=Math.min(...pts),r=mx-mn||1;const p=pts.map((v,i)=>`${i*(300/days)},${44-((v-mn)/r)*38}`).join(' ');
+return `<svg viewBox="0 0 300 48" width="100%" height="48" preserveAspectRatio="none"><polyline points="${p}" fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/></svg>`}
+// ---------- views ----------
+let view='home',range=30;
+const ic={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',tx:'<path d="M4 7h13l-3-3M20 17H7l3 3"/>',an:'<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',goals:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',set:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>'};
+function render(){
+const v={home:vHome,tx:vTx,an:vAn,goals:vGoals,set:vSet}[view]();
+$('#app').innerHTML=v+`<button class="fab" onclick="openTx()" aria-label="${t('add')}">+</button><nav>${['home','tx','an','goals','set'].map(k=>`<button class="${view==k?'on':''}" onclick="go('${k}')"><svg viewBox="0 0 24 24">${ic[k]}</svg>${t(k)}</button>`).join('')}</nav>`;}
+function go(v){view=v;render();scrollTo(0,0)}
+function vHome(){
+const m=mk(today()),h=new Date().getHours(),g=h<12?'صبح بخیر':h<18?'ظهر بخیر':h<21?'عصر بخیر':'شب بخیر';
+const i=sum(inM(m,'income')),e=sum(inM(m,'expense')),A=alloc(m),fs=spentB(m,'free'),fp=A.free?fs/A.free*100:0;
+let o=`<h1 style="font-size:22px">${g}، امیر</h1><div class="sub">${t('app')} · ${new Date().toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long'})}</div><div style="height:14px"></div>
+<div class="card hero"><small>${t('bal')}</small><div class="big">${money(balance())}</div><div class="row"><div><small>${t('monthInc')}</small>${fmt(i)}</div><div><small>${t('monthExp')}</small>${fmt(e)}</div></div><div style="margin-top:10px">${spark()}</div></div>`;
+if(!S.tx.length)return o+`<div class="card empty">${t('empty')}<button class="btn" onclick="openTx()">${t('add')}</button></div>`;
+o+=`<h2>${t('money')}</h2>${pctWarn()}<div class="grid">`+['ess','cap','biz','free'].map(b=>{const sp=spentB(m,b);return `<div class="card"><div class="row2"><b>${t(b)}</b><span class="pct" style="flex:0">${S.set[b]}%</span></div><div class="kv">اختصاص<b>${fmt(A[b])}</b></div><div class="kv">${t('spent')}<b>${fmt(sp)}</b></div><div class="kv">${t('left')}<b>${fmt(A[b]-sp)}</b></div></div>`}).join('')+`</div>`;
+o+=`<h2>${t('free')}</h2><div class="card"><div class="kv">بودجه<b>${money(A.free)}</b></div>${bar(fp)}<div class="kv">${t('spent')}<b>${money(fs)}</b></div><div class="kv">${t('left')}<b>${money(A.free-fs)}</b></div>${A.free>0&&fp>100?`<div class="warn">${t('over')}</div>`:fp>80?`<div class="warn">${Math.round(fp)}٪ از سقف خرج آزاد مصرف شده.</div>`:''}</div>`;
+const lb=['سیگار','رستوران','خرید','تفریح','کافه','بازی','سرگرمی'].map(c=>[c,sum(inM(m,'expense').filter(x=>x.group=='life'&&x.cat==c))]).filter(x=>x[1]>0);
+if(lb.length)o+=`<h2>تفکیک سبک زندگی</h2><div class="card">${lb.map(([c,v])=>`<div class="kv" style="font-size:14px;margin:6px 0">${c}<b>${fmt(v)}</b></div>`).join('')}</div>`;
+return o+`<h2>آخرین تراکنش‌ها</h2><div class="card">${txList(S.tx.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,5))}</div>`}
+function txList(l){return l.length?l.map(x=>`<div class="tx ${x.type=='expense'?'e':''}"><div class="dot">${x.type=='income'?'+':'−'}</div><div class="m"><div>${esc(x.cat)}</div><div class="sub">${new Date(x.date).toLocaleDateString('fa-IR')} · ${esc(x.acc)}${x.desc?' · '+esc(x.desc):''}</div></div><div class="${x.type=='income'?'pos':'neg'}">${x.type=='income'?'+':'−'}${fmt(x.amount)}</div><button class="x" onclick="delTx('${x.id}')" aria-label="حذف">×</button></div>`).join(''):`<div class="empty">${t('empty')}</div>`}
+function vTx(){const l=S.tx.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));return `<h1 style="font-size:22px">${t('tx')}</h1><div style="height:12px"></div><div class="card">${txList(l)}</div>${l.length?'':`<button class="btn" onclick="openTx()">${t('add')}</button>`}`}
+function delTx(id){if(confirm('این تراکنش حذف شود؟')){S.tx=S.tx.filter(x=>x.id!=id);save();render()}}
+function pctWarn(){const s=S.set.ess+S.set.cap+S.set.biz+S.set.free;return s!=100?`<div class="warn">${t('sum100')} (الان ${s}٪)</div>`:''}
+function vAn(){
+const R=[[7,'۷ روز'],[30,'۳۰ روز'],[90,'۳ ماه'],[180,'۶ ماه'],[365,'۱ سال']],from=dateAgo(range),L=S.tx.filter(x=>x.date>=from),
+I=sum(L.filter(x=>x.type=='income')),E=sum(L.filter(x=>x.type=='expense')),ex=L.filter(x=>x.type=='expense'),
+bk=g=>sum(ex.filter(x=>x.group==g)),smoke=sum(ex.filter(x=>x.group=='life'&&x.cat=='سیگار'));
+let o=`<h1 style="font-size:22px">${t('an')}</h1><div style="height:12px"></div><div class="chips">${R.map(r=>`<button class="${range==r[0]?'on':''}" onclick="range=${r[0]};render()">${r[1]}</button>`).join('')}</div>
+<div class="card"><div class="kv" style="font-size:14px">${t('inc')}<b class="pos">${fmt(I)}</b></div><div class="kv" style="font-size:14px">${t('exp')}<b class="neg">${fmt(E)}</b></div><div class="kv" style="font-size:14px">خالص<b>${fmt(I-E)}</b></div></div>`;
+// last 6 months bars
+const ms=[];let mm=mk(today());for(let i=0;i<6;i++){ms.unshift(mm);mm=prevMk(mm)}
+const data=ms.map(m=>[sum(inM(m,'income')),sum(inM(m,'expense'))]),mx=Math.max(1,...data.flat());
+o+=`<h2>درآمد و هزینه ماهانه</h2><div class="card"><div class="bars">${data.map(d=>`<div><i style="height:${d[0]/mx*100}%;background:var(--br)"></i><i style="height:${d[1]/mx*100}%;background:var(--neg)"></i></div>`).join('')}</div><div class="bars" style="height:auto;margin-top:4px">${ms.map(m=>`<div class="sub" style="justify-content:center;font-size:10px">${m.slice(5)}</div>`).join('')}</div></div>`;
+const byCat={};ex.forEach(x=>byCat[x.cat+' ('+GN[x.group]+')']=(byCat[x.cat+' ('+GN[x.group]+')']||0)+x.amount);
+const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,8);
+o+=`<h2>هزینه بر اساس دسته</h2><div class="card">${top.length?top.map(([c,v])=>`<div class="kv" style="font-size:13px;margin-top:8px">${esc(c)}<b>${fmt(v)}</b></div>${bar(E?v/E*100:0)}`).join(''):'<div class="sub">داده‌ای نیست</div>'}</div>
+<div class="grid"><div class="card"><div class="sub">سیگار</div><b>${fmt(smoke)}</b></div><div class="card"><div class="sub">${t('free')}</div><b>${fmt(sum(ex.filter(x=>x.group=='life')))}</b></div><div class="card"><div class="sub">سرمایه‌گذاری</div><b>${fmt(bk('cap'))}</b></div><div class="card"><div class="sub">رشد کسب‌وکار</div><b>${fmt(bk('biz'))}</b></div></div>`;
+return o+review()}
+function review(){
+const m=mk(today()),p=prevMk(m),ex=inM(m,'expense'),big=ex.slice().sort((a,b)=>b.amount-a.amount)[0],cs={};ex.forEach(x=>cs[x.cat]=(cs[x.cat]||0)+x.amount);
+const tc=Object.entries(cs).sort((a,b)=>b[1]-a[1])[0],ins=[];
+const cmp=(a,b,name)=>{if(b>0&&a!=b){const d=Math.round(Math.abs(a-b)/b*100);ins.push(`${name} این ماه ${d}٪ ${a>b?'بیشتر':'کمتر'} از ماه قبل بود.`)}};
+cmp(exM(m,'life'),exM(p,'life'),'خرج سبک زندگی');cmp(exM(m,'biz'),exM(p,'biz'),'سرمایه‌گذاری روی کسب‌وکار');cmp(exM(m,'cap'),exM(p,'cap'),'پس‌انداز و سرمایه');
+return `<h2>مرور ماهانه</h2><div class="card"><div class="kv" style="font-size:14px">${t('inc')}<b>${fmt(sum(inM(m,'income')))}</b></div><div class="kv" style="font-size:14px">${t('exp')}<b>${fmt(sum(ex))}</b></div><div class="kv" style="font-size:14px">پس‌انداز / سرمایه<b>${fmt(exM(m,'cap'))}</b></div><div class="kv" style="font-size:14px">کسب‌وکار<b>${fmt(exM(m,'biz'))}</b></div><div class="kv" style="font-size:14px">${t('free')}<b>${fmt(spentB(m,'free'))}</b></div><div class="kv" style="font-size:14px">بزرگ‌ترین هزینه<b>${big?esc(big.cat)+' · '+fmt(big.amount):'—'}</b></div><div class="kv" style="font-size:14px">پرخرج‌ترین دسته<b>${tc?esc(tc[0]):'—'}</b></div>${ins.length?'<hr style="border:0;border-top:1px solid var(--ln)">'+ins.map(i=>`<div style="font-size:13px;margin-top:6px"><span class="pct">•</span> ${i}</div>`).join(''):''}</div>`}
+function vGoals(){
+const m=mk(today()),ess=exM(m,'ess')||alloc(m).ess,sv=sum(S.tx.filter(x=>x.type=='expense'&&x.group=='cap'&&x.cat=='ذخیره اضطراری'));
+let o=`<h1 style="font-size:22px">${t('goals')}</h1><div style="height:12px"></div><h2 style="margin-top:0">صندوق اضطراری</h2><div class="card"><div class="sub">پیشنهاد: ۳ تا ۶ ماه هزینه ضروریات (فقط یک راهنماست، نه قانون). هزینه ضروری این ماه یا سهم ضروریات: ${fmt(ess)}</div>`+[3,6].map(n=>`<div class="kv" style="margin-top:10px">${n} ماه<b>${fmt(ess*n)}</b></div>${bar(ess?sv/(ess*n)*100:0)}`).join('')+`<div class="kv">جمع‌شده (دسته «ذخیره اضطراری»)<b>${fmt(sv)}</b></div></div><h2>اهداف شما</h2>`;
+o+=S.goals.length?S.goals.map(g=>{const p=g.target?g.saved/g.target*100:0;return `<div class="card"><div class="row2"><b>${esc(g.name)}</b><span class="pct" style="flex:0">${Math.round(p)}٪</span></div>${bar(p)}<div class="kv">ذخیره‌شده<b>${fmt(g.saved)}</b></div><div class="kv">هدف<b>${fmt(g.target)}</b></div><div class="row2" style="margin-top:10px"><button class="btn alt" style="margin:0" onclick="addToGoal('${g.id}')">افزودن مبلغ</button><button class="btn red" style="margin:0" onclick="delGoal('${g.id}')">حذف</button></div></div>`}).join(''):'<div class="card empty">هنوز هدفی نساخته‌ای.</div>';
+return o+`<button class="btn" onclick="newGoal()">هدف جدید</button>`}
+function newGoal(){sheet(`<h3>هدف جدید</h3><label>نام (مثلاً خرید موتور)</label><input id="gn"><label>مبلغ هدف</label><input id="gt" inputmode="numeric"><label>تاکنون ذخیره‌شده</label><input id="gs" inputmode="numeric" value="0"><button class="btn" onclick="saveGoal()">ثبت</button>`)}
+const num=s=>Number(String(s).replace(/[,\s]/g,'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)))||0;
+function saveGoal(){const n=$('#gn').value.trim(),tg=num($('#gt').value);if(!n||tg<=0)return toast('نام و مبلغ هدف را وارد کن');S.goals.push({id:uid(),name:n,target:tg,saved:num($('#gs').value)});save();closeSheet();render()}
+function addToGoal(id){const v=num(prompt('مبلغ اضافه‌شده؟'));if(v>0){S.goals.find(g=>g.id==id).saved+=v;save();render()}}
+function delGoal(id){if(confirm('این هدف حذف شود؟')){S.goals=S.goals.filter(g=>g.id!=id);save();render()}}
+function vSet(){
+const lst=(k,a,lbl)=>`<h2>${lbl}</h2><div class="card">${a.map((x,i)=>`<div class="kv" style="font-size:14px;align-items:center;margin:4px 0">${esc(x)}<button class="x" onclick="rm('${k}',${i})">×</button></div>`).join('')}<div class="row2" style="margin-top:8px"><input id="n_${k}" placeholder="جدید"><button class="btn alt" style="margin:0;flex:0 0 80px" onclick="addItem('${k}')">افزودن</button></div></div>`;
+return `<h1 style="font-size:22px">${t('set')}</h1><h2>درصد تقسیم درآمد</h2><div class="card">${pctWarn()}${['ess','cap','biz','free'].map(b=>`<label>${t(b)} (٪)</label><input type="number" inputmode="numeric" min="0" max="100" value="${S.set[b]}" onchange="setPct('${b}',this.value)">`).join('')}</div>
+<h2>واحد پول</h2><div class="card"><input value="${esc(S.set.cur)}" onchange="S.set.cur=this.value||'تومان';save();render()"></div>
+${lst('accounts',S.accounts,'حساب‌ها')}${lst('sources',S.sources,'منابع درآمد')}${['ess','life','biz','cap'].map(g=>lst('c_'+g,S.cats[g],'دسته‌ها: '+GN[g])).join('')}
+<h2>ظاهر</h2><div class="card"><div class="seg">${[['','خودکار'],['light','روشن'],['dark','تیره']].map(([v,l])=>`<button class="${S.set.theme==v?'on':''}" onclick="S.set.theme='${v}';save();theme();render()">${l}</button>`).join('')}</div></div>
+<h2>داده‌ها</h2><button class="btn alt" onclick="exportD()">خروجی JSON (پشتیبان)</button><button class="btn alt" onclick="$('#imp').click()">وارد کردن پشتیبان</button><input id="imp" type="file" accept=".json,application/json" hidden onchange="importD(this)"><button class="btn red" onclick="wipe()">حذف همه داده‌ها</button>`}
+function setPct(b,v){S.set[b]=Math.max(0,Math.min(100,Number(v)||0));save();render()}
+function addItem(k){const v=$('#n_'+k).value.trim();if(!v)return;(k.startsWith('c_')?S.cats[k.slice(2)]:S[k]).push(v);save();render()}
+function rm(k,i){(k.startsWith('c_')?S.cats[k.slice(2)]:S[k]).splice(i,1);save();render()}
+function exportD(){const b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='my-wallet-backup-'+today()+'.json';a.click()}
+function importD(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.tx||!d.set)throw 0;if(confirm('داده‌های فعلی با پشتیبان جایگزین شود؟')){S=Object.assign(DEF(),d);save();theme();render();toast('وارد شد')}}catch(e){toast('فایل معتبر نیست')}};r.readAsText(f)}
+function wipe(){if(confirm('همه داده‌ها حذف شود؟ این کار برگشت‌پذیر نیست.')){S=DEF();save();theme();render()}}
+// ---------- sheets / add transaction ----------
+function sheet(h){closeSheet();const d=document.createElement('div');d.className='sheet-bg';d.id='sh';d.onclick=e=>{if(e.target==d)closeSheet()};d.innerHTML=`<div class="sheet">${h}</div>`;document.body.appendChild(d)}
+function closeSheet(){const s=$('#sh');if(s)s.remove()}
+let tt='income';
+function openTx(){sheet(`<h3>${t('add')}</h3><div class="seg" style="margin-top:12px"><button id="b_income" onclick="formTx('income')">${t('inc')}</button><button id="b_expense" onclick="formTx('expense')">${t('exp')}</button></div><div id="f"></div>`);formTx(tt)}
+function formTx(ty){tt=ty;['income','expense'].forEach(k=>$('#b_'+k).classList.toggle('on',k==ty));
+const opts=ty=='income'?S.sources.map(s=>`<option>${esc(s)}</option>`).join(''):Object.keys(GN).map(g=>`<optgroup label="${GN[g]}">${S.cats[g].map(c=>`<option value="${g}|${esc(c)}">${esc(c)}</option>`).join('')}</optgroup>`).join('');
+$('#f').innerHTML=`<label>${t('amount')} (${esc(S.set.cur)})</label><input id="fa" inputmode="numeric" autofocus><label>${ty=='income'?t('src'):t('cat')}</label><select id="fc">${opts}</select><label>${t('date')}</label><input id="fd" type="date" value="${today()}"><label>${t('acc')}</label><select id="ac">${S.accounts.map(a=>`<option>${esc(a)}</option>`).join('')}</select><label>${t('desc')}</label><input id="fx"><div id="er" class="sub" style="color:var(--neg);margin-top:8px"></div><button class="btn" onclick="saveTx()">${t('save')}</button>`}
+function saveTx(){const a=num($('#fa').value),d=$('#fd').value;
+if(a<=0)return $('#er').textContent='مبلغ باید بیشتر از صفر باشد.';if(!d)return $('#er').textContent='تاریخ را انتخاب کن.';
+const c=$('#fc').value,x={id:uid(),type:tt,amount:a,date:d,acc:$('#ac').value,desc:$('#fx').value.trim()};
+if(tt=='income'){x.cat=c;x.group='income'}else{const[g,...r]=c.split('|');x.group=g;x.cat=r.join('|')}
+S.tx.push(x);save();closeSheet();render();toast('ثبت شد');if(tt=='income')suggest(a)}
+function suggest(a){const m={ess:'کارت اصلی',cap:'حساب سرمایه',biz:'رشد کار',free:'کارت خرج آزاد'};
+sheet(`<h3>${t('sugg')}</h3><div class="sub">برای درآمد ${money(a)}</div>${pctWarn()}<div style="margin-top:10px">${['ess','cap','biz','free'].map(b=>`<div class="kv" style="font-size:15px;margin:10px 0">${t(b)} (${S.set[b]}٪)<b>${money(a*S.set[b]/100)}</b></div>`).join('')}</div><div class="sub">${t('suggNote')}</div><button class="btn" onclick="closeSheet()">باشه</button>`)}
+theme();render();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
